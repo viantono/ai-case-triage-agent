@@ -1,0 +1,47 @@
+public class TextParser {
+    @InvocableMethod
+    public static List<ParsedText> parseText(List<String> inputTexts) {
+        List<ParsedText> results = new List<ParsedText>();
+
+        for (String inputText : inputTexts) {
+            ParsedText parsedData = new ParsedText();
+
+            // Split input text into lines
+            List<String> lines = inputText.split('\n');
+
+            // Loop through each line and extract values
+            for (String line : lines) {
+                if (line.startsWith('Intent:')) {
+                    parsedData.Intent = line.replace('Intent: ', '').trim();
+                } else if (line.startsWith('Matched Keywords:')) {
+                    parsedData.MatchedKeywords = line.replace('Matched Keywords: ', '').trim();
+                } else if (line.startsWith('Assigned Case Owner:')) {
+                    parsedData.AssignedCaseOwner = line.replace('Assigned Case Owner: ', '').trim();
+                } else if (line.startsWith('Case Reason:')) {
+                    parsedData.CaseReason = line.replace('Case Reason: ', '').trim();
+                } else if (line.startsWith('Confidence Score:')) {
+                    parsedData.ConfidenceScore = line.replace('Confidence Score: ', '').trim();
+                }
+            }
+            results.add(parsedData);
+        }
+        return results;
+    }
+
+    public class ParsedText {
+        @InvocableVariable
+        public String Intent;
+        
+        @InvocableVariable
+        public String MatchedKeywords;
+        
+        @InvocableVariable
+        public String AssignedCaseOwner;
+        
+        @InvocableVariable
+        public String CaseReason;
+        
+        @InvocableVariable
+        public String ConfidenceScore;
+    }
+}
